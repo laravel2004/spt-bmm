@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class UserManagementController extends Controller
 {
-    private $user;
+    private User $user;
 
     public function __construct(User $user)
     {

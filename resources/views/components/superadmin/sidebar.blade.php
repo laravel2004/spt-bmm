@@ -28,6 +28,14 @@
                     </a>
                 </li>
 
+                <li class="sidebar-title">Master Data</li>
+                <li class="sidebar-item {{ activeState('superadmin.vehicle.index') }}">
+                    <a href="{{ route('superadmin.vehicle.index') }}" class="sidebar-link">
+                        <i class="bi bi-truck-front"></i>
+                        <span>Vehicle</span>
+                    </a>
+                </li>
+
                 <li class="sidebar-title">Users Management</li>
                 <li class="sidebar-item {{ activeState('superadmin.user-management.index') }}">
                     <a href="{{ route('superadmin.user-management.index') }}" class="sidebar-link">

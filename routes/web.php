@@ -26,6 +26,10 @@ Route::prefix('/')->group(function () {
                 Route::put('/update/{id}', [\App\Http\Controllers\SuperAdmin\UserManagement\UserManagementController::class, 'update'])->name('superadmin.user-management.update');
                 Route::delete('/delete/{id}', [\App\Http\Controllers\SuperAdmin\UserManagement\UserManagementController::class, 'destroy'])->name('superadmin.user-management.delete');
             });
+
+            Route::prefix('vehicle')->group(function () {
+                Route::get('/', [\App\Http\Controllers\SuperAdmin\Vehicle\VehicleController::class, 'index'])->name('superadmin.vehicle.index');
+            });
         });
     });
 
