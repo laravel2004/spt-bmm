@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tranportir extends Model
+class Transportir extends Model
 {
     protected $guarded = ['id'];
 }

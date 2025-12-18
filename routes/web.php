@@ -35,6 +35,15 @@ Route::prefix('/')->group(function () {
                 Route::put('/update/{id}', [\App\Http\Controllers\SuperAdmin\Vehicle\VehicleController::class, 'update'])->name('superadmin.vehicle.update');
                 Route::delete('/delete/{id}', [\App\Http\Controllers\SuperAdmin\Vehicle\VehicleController::class, 'destroy'])->name('superadmin.vehicle.delete');
             });
+
+            Route::prefix('transportir')->group(function () {
+                Route::get('/', [\App\Http\Controllers\SuperAdmin\Transportir\TransportirController::class, 'index'])->name('superadmin.transportir.index');
+                Route::get('/create', [\App\Http\Controllers\SuperAdmin\Transportir\TransportirController::class, 'create'])->name('superadmin.transportir.create');
+                Route::post('/store', [\App\Http\Controllers\SuperAdmin\Transportir\TransportirController::class, 'store'])->name('superadmin.transportir.store');
+                Route::get('/edit/{id}', [\App\Http\Controllers\SuperAdmin\Transportir\TransportirController::class, 'edit'])->name('superadmin.transportir.edit');
+                Route::put('/update/{id}', [\App\Http\Controllers\SuperAdmin\Transportir\TransportirController::class, 'update'])->name('superadmin.transportir.update');
+                Route::delete('/delete/{id}', [\App\Http\Controllers\SuperAdmin\Transportir\TransportirController::class, 'destroy'])->name('superadmin.transportir.delete');
+            });
         });
     });
 

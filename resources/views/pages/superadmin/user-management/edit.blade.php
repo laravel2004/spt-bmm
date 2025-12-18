@@ -64,7 +64,6 @@
                                         <option value="">-- Choose role --</option>
                                         <option value="SUPERADMIN" @selected(old('role', $user->role) === 'SUPERADMIN')>SUPERADMIN</option>
                                         <option value="ADMIN" @selected(old('role', $user->role) === 'ADMIN')>ADMIN</option>
-                                        <option value="DRIVER" @selected(old('role', $user->role) === 'DRIVER')>DRIVER</option>
                                     </select>
                                     <div class="invalid-feedback" data-error-for="role"></div>
                                 </div>
