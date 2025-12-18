@@ -55,7 +55,7 @@
                             </button>
                         </form>
 
-                        <a href="{{ route('superadmin.user-management.create') }}" class="btn btn-primary btn-sm">
+                        <a href="{{ route('superadmin.vehicle.create') }}" class="btn btn-primary btn-sm">
                             <i class="bi bi-plus-lg me-1"></i> Tambah Vehicle
                         </a>
                     </div>
@@ -117,7 +117,7 @@
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
                                                 <li>
-                                                    <a class="dropdown-item" href="{{ route('superadmin.user-management.edit', $u->id) }}">
+                                                    <a class="dropdown-item" href="{{ route('superadmin.vehicle.edit', $u->id) }}">
                                                         <i class="bi bi-pencil-square me-2"></i> Edit
                                                     </a>
                                                 </li>
@@ -126,7 +126,7 @@
                                                     <button
                                                         type="button"
                                                         class="dropdown-item text-danger btn-delete-user"
-                                                        data-url="{{ route('superadmin.user-management.delete', $u->id) }}"
+                                                        data-url="{{ route('superadmin.vehicle.delete', $u->id) }}"
                                                         data-name="{{ $u->vehicle_no ?? $u->$vehicle_type }}"
                                                     >
                                                         <i class="bi bi-trash me-2"></i> Delete
@@ -160,7 +160,7 @@
 @push('scripts')
     <script>
         $(function () {
-            const indexUrl = @json(route('superadmin.user-management.index'));
+            const indexUrl = @json(route('superadmin.vehicle.index'));
             const csrf = $('meta[name="csrf-token"]').attr('content') || $('input[name="_token"]').val();
 
             $(document).on('click', '.btn-delete-user', function () {
@@ -193,7 +193,7 @@
                             });
                         },
                         error: function (xhr) {
-                            const msg = xhr.responseJSON?.message || 'Failed to delete user';
+                            const msg = xhr.responseJSON?.message || 'Failed to delete vehicle';
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',

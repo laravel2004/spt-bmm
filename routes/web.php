@@ -29,6 +29,11 @@ Route::prefix('/')->group(function () {
 
             Route::prefix('vehicle')->group(function () {
                 Route::get('/', [\App\Http\Controllers\SuperAdmin\Vehicle\VehicleController::class, 'index'])->name('superadmin.vehicle.index');
+                Route::get('/create', [\App\Http\Controllers\SuperAdmin\Vehicle\VehicleController::class, 'create'])->name('superadmin.vehicle.create');
+                Route::post('/store', [\App\Http\Controllers\SuperAdmin\Vehicle\VehicleController::class, 'store'])->name('superadmin.vehicle.store');
+                Route::get('/edit/{id}', [\App\Http\Controllers\SuperAdmin\Vehicle\VehicleController::class, 'edit'])->name('superadmin.vehicle.edit');
+                Route::put('/update/{id}', [\App\Http\Controllers\SuperAdmin\Vehicle\VehicleController::class, 'update'])->name('superadmin.vehicle.update');
+                Route::delete('/delete/{id}', [\App\Http\Controllers\SuperAdmin\Vehicle\VehicleController::class, 'destroy'])->name('superadmin.vehicle.delete');
             });
         });
     });

@@ -1,0 +1,177 @@
+@extends('layouts.master-super')
+
+@section('title', 'Add Vehicle')
+@section('subtitle', 'Add Vehicle')
+
+@section('content')
+    <section class="section">
+        <div class="row">
+            <div class="col-12 col-lg-10">
+                <div class="card">
+                    <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+                        <div>
+                            <h4 class="mb-0">Create New Vehicle</h4>
+                            <p class="text-muted mb-0">Fill the form below to add a new vehicle.</p>
+                        </div>
+
+                        <a href="{{ route('superadmin.vehicle.index') }}" class="btn btn-light">
+                            <i class="bi bi-arrow-left me-1"></i> Back
+                        </a>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="alert alert-light-success d-none" id="successBox"></div>
+                        <div class="alert alert-light-danger d-none" id="errorBox"></div>
+
+                        <form id="formAddUser" enctype="multipart/form-data">
+                            @csrf
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Vehicle No <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="vehicle_no" placeholder="AG 1734 OK">
+                                    <div class="invalid-feedback" data-error-for="vehicle_no"></div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Vehicle No <span class="text-danger">*</span></label>
+                                    <select class="form-select" name="vehicle_type">
+                                        <option value="">-- Choose Type --</option>
+                                        <option value="wingbox">Wing Box</option>
+                                        <option value="container_20_feet">Container 20 Feet</option>
+                                        <option value="container_40_feet">Container 40 Feet</option>
+                                        <option value="tronton">Tronton</option>
+                                        <option value="trintin">Trintin</option>
+                                        <option value="engkel">Engkel</option>
+                                        <option value="l300">L300</option>
+                                        <option value="cdd">CDD</option>
+                                        <option value="fuso">FUSO</option>
+                                        <option value="cde">CDE</option>
+                                        <option value="grandmax">Grand Max</option>
+                                        <option value="hino">Hino</option>
+                                    </select>
+                                    <div class="invalid-feedback" data-error-for="role"></div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Capacity</label>
+                                    <input type="number" class="form-control" name="capacity" placeholder="2000">
+                                    <div class="invalid-feedback" data-error-for="capacity"></div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Production Year <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" name="production_year" placeholder="2012">
+                                    <div class="invalid-feedback" data-error-for="production_year"></div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label class="form-label">Active <span class="text-danger">*</span></label>
+                                    <select class="form-select" name="is_active">
+                                        <option value="1">Active</option>
+                                        <option value="0">Inactive</option>
+                                    </select>
+                                    <div class="invalid-feedback" data-error-for="is_active"></div>
+                                </div>
+
+                                <div class="col-12 d-flex justify-content-end gap-2 mt-3">
+                                    <a href="{{ route('superadmin.vehicle.index') }}" class="btn btn-light">
+                                        Cancel
+                                    </a>
+                                    <button type="submit" class="btn btn-primary" id="btnSubmit">
+                                        <i class="bi bi-save me-1"></i> Save Vehicle
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+@endsection
+
+@push('scripts')
+    <script>
+        $(function () {
+            const storeUrl = @json(route('superadmin.vehicle.store'));
+            const indexUrl = @json(route('superadmin.vehicle.index'));
+
+            function resetFieldErrors() {
+                $('#formAddUser .is-invalid').removeClass('is-invalid');
+                $('#formAddUser [data-error-for]').text('');
+            }
+
+            function setFieldError(field, message) {
+                const $input = $('#formAddUser [name="' + field + '"]');
+                $input.addClass('is-invalid');
+                $('#formAddUser [data-error-for="' + field + '"]').text(message);
+            }
+
+            $('#formAddUser').on('submit', function (e) {
+                e.preventDefault();
+                resetFieldErrors();
+
+                const formData = new FormData(this);
+                $('#btnSubmit').prop('disabled', true);
+
+                $.ajax({
+                    url: storeUrl,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="_token"]').val()
+                    },
+                    success: function (res) {
+                        $('#btnSubmit').prop('disabled', false);
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: res?.message || 'Vehicle created successfully',
+                            showConfirmButton: true,
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.href = indexUrl;
+                        });
+                    },
+                    error: function (xhr) {
+                        $('#btnSubmit').prop('disabled', false);
+
+                        // Validation error
+                        if (xhr.status === 422) {
+                            const errors = xhr.responseJSON?.errors || {};
+
+                            Object.keys(errors).forEach(function (key) {
+                                setFieldError(key, errors[key][0]);
+                            });
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Validation Error',
+                                text: 'Please check the highlighted fields.',
+                                confirmButtonText: 'OK'
+                            });
+
+                            return;
+                        }
+
+                        // Other errors (500, 403, etc.)
+                        const msg = xhr.responseJSON?.message || 'Failed to create user';
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: msg,
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
+

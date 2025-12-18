@@ -8,7 +8,8 @@ class UserUpdateFormRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        $user = auth()->user();
+        return $user && $user->role->value === 'SUPERADMIN';
     }
 
     public function rules(): array
