@@ -44,6 +44,15 @@ Route::prefix('/')->group(function () {
                 Route::put('/update/{id}', [\App\Http\Controllers\SuperAdmin\Transportir\TransportirController::class, 'update'])->name('superadmin.transportir.update');
                 Route::delete('/delete/{id}', [\App\Http\Controllers\SuperAdmin\Transportir\TransportirController::class, 'destroy'])->name('superadmin.transportir.delete');
             });
+
+            Route::prefix('customer')->group(function () {
+                Route::get('/', [\App\Http\Controllers\SuperAdmin\Customer\CustomerController::class, 'index'])->name('superadmin.customer.index');
+                Route::get('/create', [\App\Http\Controllers\SuperAdmin\Customer\CustomerController::class, 'create'])->name('superadmin.customer.create');
+                Route::post('/store', [\App\Http\Controllers\SuperAdmin\Customer\CustomerController::class, 'store'])->name('superadmin.customer.store');
+                Route::get('/edit/{id}', [\App\Http\Controllers\SuperAdmin\Customer\CustomerController::class, 'edit'])->name('superadmin.customer.edit');
+                Route::put('/update/{id}', [\App\Http\Controllers\SuperAdmin\Customer\CustomerController::class, 'update'])->name('superadmin.customer.update');
+                Route::delete('/delete/{id}', [\App\Http\Controllers\SuperAdmin\Customer\CustomerController::class, 'destroy'])->name('superadmin.customer.delete');
+            });
         });
     });
 

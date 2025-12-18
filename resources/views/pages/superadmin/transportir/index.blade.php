@@ -160,7 +160,7 @@
                 const name = $(this).data('name') || 'this user';
 
                 Swal.fire({
-                    title: 'Delete vehicle?',
+                    title: 'Delete Transportir?',
                     html: `Are you sure you want to delete <b>${name}</b>?<br><small class="text-muted">This action cannot be undone.</small>`,
                     icon: 'warning',
                     showCancelButton: true,

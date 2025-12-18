@@ -31,8 +31,14 @@
                 <li class="sidebar-title">Master Data</li>
                 <li class="sidebar-item {{ activeState('superadmin.transportir.index') }}">
                     <a href="{{ route('superadmin.transportir.index') }}" class="sidebar-link">
-                        <i class="bi bi-building-fill-gear"></i>
+                        <i class="bi bi-shop"></i>
                         <span>Transportir</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ activeState('superadmin.customer.index') }}">
+                    <a href="{{ route('superadmin.customer.index') }}" class="sidebar-link">
+                        <i class="bi bi-building-fill-gear"></i>
+                        <span>Customers</span>
                     </a>
                 </li>
                 <li class="sidebar-item {{ activeState('superadmin.vehicle.index') }}">

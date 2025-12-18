@@ -1,7 +1,7 @@
 @extends('layouts.master-super')
 
-@section('title', 'Vehicle Management')
-@section('subtitle', 'Vehicle Management')
+@section('title', 'Customer Management')
+@section('subtitle', 'Customer Management')
 
 @section('content')
     <section class="section">
@@ -10,9 +10,9 @@
                 <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
 
                     <div>
-                        <h4 class="mb-0">Vehicle Management</h4>
+                        <h4 class="mb-0">Customer Management</h4>
                         <p class="text-muted mb-0">
-                            Total: <span class="fw-bold">{{ $vehicles->total() }}</span> vehicles
+                            Total: <span class="fw-bold">{{ $customers->total() }}</span> customers found.
                         </p>
                     </div>
 
@@ -55,17 +55,17 @@
                             </button>
                         </form>
 
-                        <a href="{{ route('superadmin.vehicle.create') }}" class="btn btn-primary btn-sm">
-                            <i class="bi bi-plus-lg me-1"></i> Tambah Vehicle
+                        <a href="{{ route('superadmin.customer.create') }}" class="btn btn-primary btn-sm">
+                            <i class="bi bi-plus-lg me-1"></i> Tambah Customers
                         </a>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                @if($vehicles->count() === 0)
+                @if($customers->count() === 0)
                     <div class="alert alert-light-primary mb-0">
                         <i class="bi bi-info-circle me-1"></i>
-                        No vehicle found.
+                        No customers found.
                     </div>
                 @else
                     <div class="table-responsive">
@@ -73,13 +73,12 @@
                             <thead>
                             <tr>
                                 <th style="width: 70px;">No</th>
-                                <th>Vehicle No.</th>
-                                <th>Vehicle Type</th>
+                                <th>Customer Code</th>
+                                <th>Customer Name</th>
+                                <th>Address</th>
                                 <th>Status</th>
-                                <th>Capacity</th>
-                                <th>Production Year</th>
-                                <th>Created</th>
-                                <th>Modified</th>
+                                <th>Processed By</th>
+                                <th>Processed Date</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
                                 <th class="text-end" style="width: 120px;">Action</th>
@@ -87,12 +86,13 @@
                             </thead>
 
                             <tbody>
-                            @foreach($vehicles as $i => $u)
+                            @foreach($customers as $i => $u)
                                 <tr>
-                                    <td class="text-muted">{{ $vehicles->firstItem() + $i }}</td>
-                                    <td>{{ $u->vehicle_no ?? '-' }}</td>
+                                    <td class="text-muted">{{ $customers->firstItem() + $i }}</td>
+                                    <td>{{ $u->cust_code ?? '-' }}</td>
 
-                                    <td>{{ $u->vehicle_type ?? '-' }}</td>
+                                    <td>{{ $u->cust_name ?? '-' }}</td>
+                                    <td>{{ $u->address ?? '-' }}</td>
                                     <td>
                                         @if((int)$u->is_active === 1)
                                             <span class="badge bg-light-success text-success">Active</span>
@@ -100,12 +100,8 @@
                                             <span class="badge bg-light-danger text-danger">Inactive</span>
                                         @endif
                                     </td>
-                                    <td>{{ $u->capacity ?? '-' }}</td>
-                                    <td>{{ $u->production_year ?? '-' }}</td>
-
-                                    <td>{{ $u->created_by ?? '-' }}</td>
-                                    <td>{{ $u->modified_by ?? '-' }}</td>
-
+                                    <td>{{ $u->processed_by ?? '-' }}</td>
+                                    <td class="text-muted small">{{ $u->processed_date }}</td>
                                     <td class="text-muted small">{{ optional($u->created_at)->format('Y-m-d H:i') }}</td>
                                     <td class="text-muted small">{{ optional($u->updated_at)->format('Y-m-d H:i') }}</td>
 
@@ -117,7 +113,7 @@
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
                                                 <li>
-                                                    <a class="dropdown-item" href="{{ route('superadmin.vehicle.edit', $u->id) }}">
+                                                    <a class="dropdown-item" href="{{ route('superadmin.customer.edit', $u->id) }}">
                                                         <i class="bi bi-pencil-square me-2"></i> Edit
                                                     </a>
                                                 </li>
@@ -126,8 +122,8 @@
                                                     <button
                                                         type="button"
                                                         class="dropdown-item text-danger btn-delete-user"
-                                                        data-url="{{ route('superadmin.vehicle.delete', $u->id) }}"
-                                                        data-name="{{ $u->vehicle_no ?? $u->vehicle_type }}"
+                                                        data-url="{{ route('superadmin.customer.delete', $u->id) }}"
+                                                        data-name="{{ $u->cust_name ?? $u->cust_code }}"
                                                     >
                                                         <i class="bi bi-trash me-2"></i> Delete
                                                     </button>
@@ -143,12 +139,12 @@
 
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mt-3">
                         <div class="text-muted small">
-                            Showing <b>{{ $vehicles->firstItem() }}</b> to <b>{{ $vehicles->lastItem() }}</b>
-                            of <b>{{ $vehicles->total() }}</b> results
+                            Showing <b>{{ $customers->firstItem() }}</b> to <b>{{ $customers->lastItem() }}</b>
+                            of <b>{{ $customers->total() }}</b> results
                         </div>
 
                         <div>
-                            {{ $vehicles->links() }}
+                            {{ $customers->links() }}
                         </div>
                     </div>
                 @endif
@@ -160,7 +156,7 @@
 @push('scripts')
     <script>
         $(function () {
-            const indexUrl = @json(route('superadmin.vehicle.index'));
+            const indexUrl = @json(route('superadmin.customer.index'));
             const csrf = $('meta[name="csrf-token"]').attr('content') || $('input[name="_token"]').val();
 
             $(document).on('click', '.btn-delete-user', function () {
@@ -168,7 +164,7 @@
                 const name = $(this).data('name') || 'this user';
 
                 Swal.fire({
-                    title: 'Delete vehicle?',
+                    title: 'Delete Customer?',
                     html: `Are you sure you want to delete <b>${name}</b>?<br><small class="text-muted">This action cannot be undone.</small>`,
                     icon: 'warning',
                     showCancelButton: true,
@@ -186,14 +182,14 @@
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Deleted',
-                                text: res?.message || 'Vehicle deleted successfully',
+                                text: res?.message || 'Customer deleted successfully',
                                 confirmButtonText: 'OK'
                             }).then(() => {
                                 window.location.href = indexUrl;
                             });
                         },
                         error: function (xhr) {
-                            const msg = xhr.responseJSON?.message || 'Failed to delete vehicle';
+                            const msg = xhr.responseJSON?.message || 'Failed to delete customer. Please try again later.';
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
