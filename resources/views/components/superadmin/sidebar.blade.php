@@ -29,6 +29,12 @@
                 </li>
 
                 <li class="sidebar-title">Master Data</li>
+                <li class="sidebar-item {{ activeState('superadmin.mapping-transportir.index') }}">
+                    <a href="{{ route('superadmin.mapping-transportir.index') }}" class="sidebar-link">
+                        <i class="bi bi-diagram-2"></i>
+                        <span>Mapping Transportir</span>
+                    </a>
+                </li>
                 <li class="sidebar-item {{ activeState('superadmin.transportir.index') }}">
                     <a href="{{ route('superadmin.transportir.index') }}" class="sidebar-link">
                         <i class="bi bi-shop"></i>

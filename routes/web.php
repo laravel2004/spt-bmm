@@ -63,6 +63,16 @@ Route::prefix('/')->group(function () {
                 Route::delete('/{id}', [\App\Http\Controllers\SuperAdmin\Driver\DriverController::class, 'destroy'])->name('superadmin.driver.delete');
                 Route::get('/{id}', [\App\Http\Controllers\SuperAdmin\Driver\DriverController::class, 'show'])->name('superadmin.driver.show');
             });
+
+            Route::prefix('/mapping-transportir')->group(function () {
+                Route::get('/', [\App\Http\Controllers\SuperAdmin\Transportir\MappingTranspotirController::class, 'index'])->name('superadmin.mapping-transportir.index');
+                Route::get('/create', [\App\Http\Controllers\SuperAdmin\Transportir\MappingTranspotirController::class, 'create'])->name('superadmin.mapping-transportir.create');
+                Route::post('/store', [\App\Http\Controllers\SuperAdmin\Transportir\MappingTranspotirController::class, 'store'])->name('superadmin.mapping-transportir.store');
+                Route::get('/edit/{id}', [\App\Http\Controllers\SuperAdmin\Transportir\MappingTranspotirController::class, 'edit'])->name('superadmin.mapping-transportir.edit');
+                Route::put('/update/{id}', [\App\Http\Controllers\SuperAdmin\Transportir\MappingTranspotirController::class, 'update'])->name('superadmin.mapping-transportir.update');
+                Route::delete('/delete/{id}', [\App\Http\Controllers\SuperAdmin\Transportir\MappingTranspotirController::class, 'destroy'])->name('superadmin.mapping-transportir.delete');
+            });
+
         });
     });
 
