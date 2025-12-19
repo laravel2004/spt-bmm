@@ -3,8 +3,10 @@
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <!-- Logo Section -->
-                <div class="img-fluid d-flex align-items-center">
-                    <h5 class="logo-text ms-3">Haircut Backoffice</h5>
+                <div class="img-fluid">
+                    <img src="{{ asset('clients/assets/images/logo.png') }}" alt="Logo" width="150" height="150">
+                    <br/>
+                    <h5 class="logo-text ms-3">CMS Driver</h5>
                 </div>
                 <!-- Theme Toggle -->
                 <div class="theme-toggle d-flex gap-2 align-items-center mt-2">
