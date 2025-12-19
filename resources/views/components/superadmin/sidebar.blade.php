@@ -41,6 +41,12 @@
                         <span>Customers</span>
                     </a>
                 </li>
+                <li class="sidebar-item {{ activeState('superadmin.driver.index') }}">
+                    <a href="{{ route('superadmin.driver.index') }}" class="sidebar-link">
+                        <i class="bi bi-person-badge-fill"></i>
+                        <span>Drivers</span>
+                    </a>
+                </li>
                 <li class="sidebar-item {{ activeState('superadmin.vehicle.index') }}">
                     <a href="{{ route('superadmin.vehicle.index') }}" class="sidebar-link">
                         <i class="bi bi-truck-front"></i>

@@ -53,6 +53,16 @@ Route::prefix('/')->group(function () {
                 Route::put('/update/{id}', [\App\Http\Controllers\SuperAdmin\Customer\CustomerController::class, 'update'])->name('superadmin.customer.update');
                 Route::delete('/delete/{id}', [\App\Http\Controllers\SuperAdmin\Customer\CustomerController::class, 'destroy'])->name('superadmin.customer.delete');
             });
+
+            Route::prefix('driver')->group(function () {
+                Route::get('/', [\App\Http\Controllers\SuperAdmin\Driver\DriverController::class, 'index'])->name('superadmin.driver.index');
+                Route::get('/create', [\App\Http\Controllers\SuperAdmin\Driver\DriverController::class, 'create'])->name('superadmin.driver.create');
+                Route::post('/store', [\App\Http\Controllers\SuperAdmin\Driver\DriverController::class, 'store'])->name('superadmin.driver.store');
+                Route::get('/{id}/edit', [\App\Http\Controllers\SuperAdmin\Driver\DriverController::class, 'edit'])->name('superadmin.driver.edit');
+                Route::put('/{id}', [\App\Http\Controllers\SuperAdmin\Driver\DriverController::class, 'update'])->name('superadmin.driver.update');
+                Route::delete('/{id}', [\App\Http\Controllers\SuperAdmin\Driver\DriverController::class, 'destroy'])->name('superadmin.driver.delete');
+                Route::get('/{id}', [\App\Http\Controllers\SuperAdmin\Driver\DriverController::class, 'show'])->name('superadmin.driver.show');
+            });
         });
     });
 

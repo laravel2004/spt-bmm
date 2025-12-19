@@ -42,4 +42,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function driver()
+    {
+        return $this->hasOne(\App\Models\Driver::class, 'user_id');
+    }
 }
