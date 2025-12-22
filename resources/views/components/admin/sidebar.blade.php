@@ -28,8 +28,8 @@
                     </a>
                 </li>
                 <li class="sidebar-title">Master Data</li>
-                <li class="sidebar-item {{ activeState('superadmin.driver.index') }}">
-                    <a href="{{ route('superadmin.driver.index') }}" class="sidebar-link">
+                <li class="sidebar-item {{ activeState('admin.driver.index') }}">
+                    <a href="{{ route('admin.driver.index') }}" class="sidebar-link">
                         <i class="bi bi-person-badge-fill"></i>
                         <span>Drivers</span>
                     </a>

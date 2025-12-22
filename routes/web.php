@@ -79,6 +79,16 @@ Route::prefix('/')->group(function () {
     Route::middleware(['auth', 'role:ADMIN'])->group(function () {
         Route::prefix('/admin')->group(function () {
             Route::get('dashboard', [\App\Http\Controllers\Admin\Dashboard\DashboardController::class, 'index'])->name('admin.dashboard');
+
+            Route::prefix('driver')->group(function () {
+                Route::get('/', [\App\Http\Controllers\Admin\Driver\DriverController::class, 'index'])->name('admin.driver.index');
+                Route::get('/create', [\App\Http\Controllers\Admin\Driver\DriverController::class, 'create'])->name('admin.driver.create');
+                Route::post('/store', [\App\Http\Controllers\Admin\Driver\DriverController::class, 'store'])->name('admin.driver.store');
+                Route::get('/edit/{id}', [\App\Http\Controllers\Admin\Driver\DriverController::class, 'edit'])->name('admin.driver.edit');
+                Route::put('/update/{id}', [\App\Http\Controllers\Admin\Driver\DriverController::class, 'update'])->name('admin.driver.update');
+                Route::delete('/delete/{id}', [\App\Http\Controllers\Admin\Driver\DriverController::class, 'destroy'])->name('admin.driver.delete');
+                Route::get('/{id}', [\App\Http\Controllers\Admin\Driver\DriverController::class, 'show'])->name('admin.driver.show');
+            });
         });
     });
 

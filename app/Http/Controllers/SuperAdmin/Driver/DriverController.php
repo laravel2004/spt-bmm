@@ -213,7 +213,6 @@ class DriverController extends Controller
             $driver = $this->driver->with('user')->findOrFail($id);
 
             DB::transaction(function () use ($driver) {
-                // delete user => driver ikut kehapus karena FK cascadeOnDelete
                 $driver->user?->delete();
             });
 

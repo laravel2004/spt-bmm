@@ -5,28 +5,31 @@ namespace App\Http\Requests\Driver;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class DriverEditFormRequest extends FormRequest
+class DriverAdminAddFormRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
     public function authorize(): bool
     {
         $user = auth()->user();
-        return $user && $user->role->value === 'SUPERADMIN';
+        return $user && $user->role->value === 'ADMIN';
     }
 
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
     public function rules(): array
     {
-        $id = (int) $this->route('id');
-        $userId = (int) $this->input('user_id');
-
         return [
-            'user_id'         => ['required', 'integer', 'exists:users,id'],
-
             // ===== USERS =====
-            'username'        => ['required', 'string', 'max:255', Rule::unique('users', 'username')->ignore($userId)],
+            'username'        => ['required', 'string', 'max:255', 'unique:users,username'],
             'user_fullname'   => ['required', 'string', 'max:255'],
-            'email'           => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($userId)],
+            'email'           => ['required', 'email', 'max:255', 'unique:users,email'],
             'phone_num'       => ['nullable', 'string', 'max:30'],
-            'password'        => ['nullable', 'string', 'min:8', 'confirmed'], // optional saat update
+            'password'        => ['required', 'string', 'min:8', 'confirmed'],
 
             // ===== DRIVERS =====
             'driver_fullname' => ['nullable', 'string', 'max:255'],
