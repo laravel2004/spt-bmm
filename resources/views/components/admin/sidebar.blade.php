@@ -35,6 +35,14 @@
                     </a>
                 </li>
 
+                <li class="sidebar-title">Users Management</li>
+                <li class="sidebar-item {{ activeState('admin.user-management.index') }}">
+                    <a href="{{ route('admin.user-management.index') }}" class="sidebar-link">
+                        <i class="bi bi-people"></i>
+                        <span>User</span>
+                    </a>
+                </li>
+
                 <!-- Logout Section -->
                 <li class="sidebar-item">
                     <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" class="d-flex align-items-center">

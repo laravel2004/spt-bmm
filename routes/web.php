@@ -89,6 +89,15 @@ Route::prefix('/')->group(function () {
                 Route::delete('/delete/{id}', [\App\Http\Controllers\Admin\Driver\DriverController::class, 'destroy'])->name('admin.driver.delete');
                 Route::get('/{id}', [\App\Http\Controllers\Admin\Driver\DriverController::class, 'show'])->name('admin.driver.show');
             });
+
+            Route::prefix('users-management')->group(function () {
+                Route::get('/', [\App\Http\Controllers\Admin\UserManagement\UserManagementController::class, 'index'])->name('admin.user-management.index');
+                Route::get('/create', [\App\Http\Controllers\Admin\UserManagement\UserManagementController::class, 'create'])->name('admin.user-management.create');
+                Route::post('/store', [\App\Http\Controllers\Admin\UserManagement\UserManagementController::class, 'store'])->name('admin.user-management.store');
+                Route::get('/edit/{id}', [\App\Http\Controllers\Admin\UserManagement\UserManagementController::class, 'edit'])->name('admin.user-management.edit');
+                Route::put('/update/{id}', [\App\Http\Controllers\Admin\UserManagement\UserManagementController::class, 'update'])->name('admin.user-management.update');
+                Route::delete('/delete/{id}', [\App\Http\Controllers\Admin\UserManagement\UserManagementController::class, 'destroy'])->name('admin.user-management.delete');
+            });
         });
     });
 
