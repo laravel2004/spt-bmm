@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Http\Controllers\SuperAdmin\SPT;
+
+use App\Http\Controllers\Controller;
+use App\Models\MobSPt;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
+class SPTController extends Controller
+{
+    private MobSPt $spt;
+
+    public function __construct(MobSPt $spt)
+    {
+        $this->spt = $spt;
+    }
+
+    public function index(Request $request)
+    {
+        try {
+            $search  = trim((string) $request->query('search', ''));
+            $perPage = (int) $request->query('perPage', 10);
+            $perPage = max(1, min($perPage, 100));
+
+            $query = $this->spt->newQuery();
+
+            if ($search !== '') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('spt_no', 'like', "%{$search}%")
+                        ->orWhere('sppb_no', 'like', "%{$search}%")
+                        ->orWhere('cust_code', 'like', "%{$search}%");
+                });
+            }
+
+            $spts = $query
+                ->orderByDesc('id')
+                ->paginate($perPage)
+                ->withQueryString();
+
+            return view('pages.superadmin.spt.index', compact('spts'));
+        } catch (\Throwable $e) {
+            Log::error('[SPTController@index] ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            abort(500, 'Failed to load SPTs');
+        }
+    }
+}

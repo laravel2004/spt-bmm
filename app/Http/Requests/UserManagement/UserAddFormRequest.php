@@ -25,6 +25,7 @@ class UserAddFormRequest extends FormRequest
             'phone_num'       => ['nullable', 'string', 'max:20'],
             'reference_code'  => ['nullable', 'string', 'max:100'],
             'is_active'       => ['required', 'boolean'],
+            'transportir_id'   => ['nullable', 'integer', 'exists:transportirs,id'],
         ];
     }
 

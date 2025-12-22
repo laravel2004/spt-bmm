@@ -27,6 +27,13 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
+                <li class="sidebar-title">Master Data</li>
+                <li class="sidebar-item {{ activeState('superadmin.driver.index') }}">
+                    <a href="{{ route('superadmin.driver.index') }}" class="sidebar-link">
+                        <i class="bi bi-person-badge-fill"></i>
+                        <span>Drivers</span>
+                    </a>
+                </li>
 
                 <!-- Logout Section -->
                 <li class="sidebar-item">

@@ -115,6 +115,21 @@
                                     <div class="invalid-feedback" data-error-for="reference_code"></div>
                                 </div>
 
+                                <div class="col-md-12" id="transportirWrap" style="display:none;">
+                                    <label class="form-label">Transportir <span class="text-danger">*</span></label>
+                                    <select class="form-select" name="transportir_id" id="transportirSelect">
+                                        <option value="">-- Choose transportir --</option>
+
+                                        @foreach($transportirs as $t)
+                                            <option value="{{ $t->id }}"
+                                                @selected((string)old('transportir_id', $user->transportir_id) === (string)$t->id)>
+                                                {{ $t->tranportir_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback" data-error-for="transportir_id"></div>
+                                </div>
+
                                 <div class="col-12 d-flex justify-content-end gap-2 mt-3">
                                     <a href="{{ route('superadmin.user-management.index') }}" class="btn btn-light">
                                         Cancel
@@ -136,6 +151,26 @@
 @push('scripts')
     <script>
         $(function () {
+
+            function toggleTransportirField() {
+                const role = $('#formEditUser [name="role"]').val();
+
+                if (role === 'ADMIN') {
+                    $('#transportirWrap').slideDown(150);
+                    $('#transportirSelect').prop('required', true);
+                } else {
+                    $('#transportirWrap').slideUp(150);
+                    $('#transportirSelect').prop('required', false).val('');
+                    $('#transportirSelect').removeClass('is-invalid');
+                    $('#formEditUser [data-error-for="transportir_id"]').text('');
+                }
+            }
+
+            $('#formEditUser [name="role"]').on('change', toggleTransportirField);
+
+            toggleTransportirField();
+
+
             const updateUrl = @json(route('superadmin.user-management.update', $user->id));
             const indexUrl  = @json(route('superadmin.user-management.index'));
 

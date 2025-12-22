@@ -5,6 +5,7 @@ namespace App\Http\Controllers\SuperAdmin\UserManagement;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserManagement\UserAddFormRequest;
 use App\Http\Requests\UserManagement\UserUpdateFormRequest;
+use App\Models\Transportir;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -55,7 +56,8 @@ class UserManagementController extends Controller
     public function create()
     {
         try {
-            return view('pages.superadmin.user-management.create');
+            $transportirs = Transportir::all();
+            return view('pages.superadmin.user-management.create', compact('transportirs'));
         } catch (\Throwable $e) {
             Log::error('[UserManagementController@create] ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
@@ -94,8 +96,9 @@ class UserManagementController extends Controller
     public function edit($id)
     {
         try {
+            $transportirs = Transportir::all();
             $user = $this->user->findOrFail($id);
-            return view('pages.superadmin.user-management.edit', compact('user'));
+            return view('pages.superadmin.user-management.edit', compact('user', 'transportirs'));
         } catch (\Throwable $e) {
             Log::error('[UserManagementController@edit] ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
