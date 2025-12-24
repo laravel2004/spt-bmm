@@ -65,7 +65,8 @@
                                 <th>Fullname</th>
                                 <th>Email</th>
                                 <th>Phone</th>
-                                <th>Driver Type</th>
+                                <th>Type</th>
+                                <th>KTP</th>
                                 <th>Status</th>
                                 <th>Active</th>
                                 <th>Created</th>
@@ -84,6 +85,16 @@
                                     <td>{{ $d->user->email ?? '-' }}</td>
                                     <td>{{ $d->user->phone_num ?? '-' }}</td>
                                     <td>{{ $d->driver_type ?? '-' }}</td>
+
+                                    <td>
+                                        @if($d->ktp_photo)
+                                            <a href="{{ '/storage/' . $d->ktp_photo }}" target="_blank" class="btn btn-sm btn-light">
+                                                <i class="bi bi-eye me-1"></i>
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
 
                                     <td>
                                         @if((int)$d->status === 1)

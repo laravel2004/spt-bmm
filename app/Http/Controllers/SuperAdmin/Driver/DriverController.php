@@ -73,6 +73,11 @@ class DriverController extends Controller
         try {
             $data = $request->validated();
 
+            if ($request->hasFile('ktp_photo')) {
+                $ktpPhotoPath = $request->file('ktp_photo')->store('ktp_photos', 'public');
+                $data['ktp_photo'] = $ktpPhotoPath;
+            }
+
             $result = DB::transaction(function () use ($data) {
                 $user = $this->user->create([
                     'username'   => $data['username'],
@@ -89,6 +94,7 @@ class DriverController extends Controller
                     'fullname'       => $data['driver_fullname'] ?? $data['user_fullname'],
                     'birthday'       => $data['birthday'] ?? null,
                     'place_of_birth' => $data['place_of_birth'] ?? null,
+                    'ktp_photo'     => $data['ktp_photo'] ?? null,
 
                     'address_type'   => $data['address_type'] ?? null,
                     'address'        => $data['address'] ?? null,
@@ -124,7 +130,6 @@ class DriverController extends Controller
 
         } catch (\Throwable $e) {
             Log::error('[DriverController@store] ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
-            dd($e->getMessage());
             return $this->errorResponse('Failed to store driver', 500);
         }
     }
@@ -148,6 +153,11 @@ class DriverController extends Controller
             $driver = $this->driver->with('user')->findOrFail($id);
             $user   = $driver->user;
 
+            if ($request->hasFile('ktp_photo')) {
+                $ktpPhotoPath = $request->file('ktp_photo')->store('ktp_photos', 'public');
+                $data['ktp_photo'] = $ktpPhotoPath;
+            }
+
             $result = DB::transaction(function () use ($data, $driver, $user) {
 
                 $userPayload = [
@@ -168,6 +178,7 @@ class DriverController extends Controller
                     'fullname'       => $data['driver_fullname'] ?? $data['user_fullname'],
                     'birthday'       => $data['birthday'] ?? null,
                     'place_of_birth' => $data['place_of_birth'] ?? null,
+                    'ktp_photo'     => $data['ktp_photo'] ?? $driver->ktp_photo,
 
                     'address_type'   => $data['address_type'] ?? null,
                     'address'        => $data['address'] ?? null,

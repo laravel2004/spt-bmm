@@ -23,5 +23,9 @@ class DatabaseSeeder extends Seeder
             'role' => 'SUPERADMIN',
             'password' => Hash::make('password'),
         ]);
+
+        $this->call([
+           DemoMobSPTSeeder::class,
+        ]);
     }
 }

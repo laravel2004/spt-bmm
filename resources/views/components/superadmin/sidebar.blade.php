@@ -28,6 +28,20 @@
                     </a>
                 </li>
 
+                <li class="sidebar-title">SPT Management</li>
+                <li class="sidebar-item {{ activeState('superadmin.spt.index') }}">
+                    <a href="{{ route('superadmin.spt.index') }}" class="sidebar-link">
+                        <i class="bi bi-box-arrow-in-up"></i>
+                        <span>SPT Baru</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ activeState('superadmin.spt.history') }}">
+                    <a href="{{ route('superadmin.spt.history') }}" class="sidebar-link">
+                        <i class="bi bi-clock-history"></i>
+                        <span>History SPT</span>
+                    </a>
+                </li>
+
                 <li class="sidebar-title">Master Data</li>
                 <li class="sidebar-item {{ activeState('superadmin.mapping-transportir.index') }}">
                     <a href="{{ route('superadmin.mapping-transportir.index') }}" class="sidebar-link">

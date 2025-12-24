@@ -73,6 +73,16 @@ Route::prefix('/')->group(function () {
                 Route::delete('/delete/{id}', [\App\Http\Controllers\SuperAdmin\Transportir\MappingTranspotirController::class, 'destroy'])->name('superadmin.mapping-transportir.delete');
             });
 
+            Route::prefix('/spt')->group(function () {
+                Route::get('/', [\App\Http\Controllers\SuperAdmin\SPT\SPTController::class, 'index'])->name('superadmin.spt.index');
+                Route::get('/history', [\App\Http\Controllers\SuperAdmin\SPT\SPTController::class, 'history'])->name('superadmin.spt.history');
+                Route::get('/create', [\App\Http\Controllers\SuperAdmin\SPT\SPTController::class, 'create'])->name('superadmin.spt.create');
+                Route::post('/store', [\App\Http\Controllers\SuperAdmin\SPT\SPTController::class, 'store'])->name('superadmin.spt.store');
+                Route::get('/edit/{id}', [\App\Http\Controllers\SuperAdmin\SPT\SPTController::class, 'edit'])->name('superadmin.spt.edit');
+                Route::put('/update/{id}', [\App\Http\Controllers\SuperAdmin\SPT\SPTController::class, 'update'])->name('superadmin.spt.update');
+                Route::delete('/delete/{id}', [\App\Http\Controllers\SuperAdmin\SPT\SPTController::class, 'destroy'])->name('superadmin.spt.delete');
+            });
+
         });
     });
 

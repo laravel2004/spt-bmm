@@ -81,6 +81,11 @@ class DriverController extends Controller
         try {
             $data = $request->validated();
 
+            if ($request->hasFile('ktp_photo')) {
+                $ktpPhotoPath = $request->file('ktp_photo')->store('ktp_photos', 'public');
+                $data['ktp_photo'] = $ktpPhotoPath;
+            }
+
             DB::beginTransaction();
 
             $user = User::create([
@@ -98,6 +103,7 @@ class DriverController extends Controller
                 'fullname'       => $data['driver_fullname'] ?? $data['user_fullname'],
                 'birthday'       => $data['birthday'] ?? null,
                 'place_of_birth' => $data['place_of_birth'] ?? null,
+                'ktp_photo'      => $data['ktp_photo'] ?? null,
 
                 'address_type'   => $data['address_type'] ?? null,
                 'address'        => $data['address'] ?? null,
@@ -168,6 +174,11 @@ class DriverController extends Controller
             $driver = $this->driver->with('user')->findOrFail($id);
             $user   = $driver->user;
 
+            if ($request->hasFile('ktp_photo')) {
+                $ktpPhotoPath = $request->file('ktp_photo')->store('ktp_photos', 'public');
+                $data['ktp_photo'] = $ktpPhotoPath;
+            }
+
             $result = DB::transaction(function () use ($data, $driver, $user) {
 
                 $userPayload = [
@@ -188,6 +199,7 @@ class DriverController extends Controller
                     'fullname'       => $data['driver_fullname'] ?? $data['user_fullname'],
                     'birthday'       => $data['birthday'] ?? null,
                     'place_of_birth' => $data['place_of_birth'] ?? null,
+                    'ktp_photo'      => $data['ktp_photo'] ?? null,
 
                     'address_type'   => $data['address_type'] ?? null,
                     'address'        => $data['address'] ?? null,

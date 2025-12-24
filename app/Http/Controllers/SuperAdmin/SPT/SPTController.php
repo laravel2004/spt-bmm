@@ -23,7 +23,39 @@ class SPTController extends Controller
             $perPage = (int) $request->query('perPage', 10);
             $perPage = max(1, min($perPage, 100));
 
-            $query = $this->spt->newQuery();
+            $query = $this->spt->newQuery()->where('status', true);
+
+            if ($search !== '') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('spt_no', 'like', "%{$search}%")
+                        ->orWhere('sppb_no', 'like', "%{$search}%")
+                        ->orWhere('cust_code', 'like', "%{$search}%");
+                });
+            }
+
+            $spts = $query
+                ->orderByDesc('id')
+                ->paginate($perPage)
+                ->withQueryString();
+
+            return view('pages.superadmin.spt.index', compact('spts'));
+        } catch (\Throwable $e) {
+            Log::error('[SPTController@index] ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            abort(500, 'Failed to load SPTs');
+        }
+    }
+
+    public function history(Request $request)
+    {
+        try {
+            $search  = trim((string) $request->query('search', ''));
+            $perPage = (int) $request->query('perPage', 10);
+            $perPage = max(1, min($perPage, 100));
+
+            $query = $this->spt->newQuery()->where('status', false);
 
             if ($search !== '') {
                 $query->where(function ($q) use ($search) {

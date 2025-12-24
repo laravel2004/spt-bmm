@@ -25,6 +25,7 @@ class DriverAddFormRequest extends FormRequest
 
             // ===== DRIVERS =====
             'driver_fullname' => ['nullable', 'string', 'max:255'],
+            'ktp_photo'     => ['nullable', 'image', 'max:2048'],
             'birthday'        => ['nullable', 'date'],
             'place_of_birth'  => ['nullable', 'string', 'max:255'],
 

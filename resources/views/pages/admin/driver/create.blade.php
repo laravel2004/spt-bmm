@@ -134,6 +134,12 @@
                                 </div>
 
                                 <div class="col-md-12">
+                                    <label class="form-label">KTP Photo</label>
+                                    <input type="file" class="form-control" name="ktp_photo" accept="image/*">
+                                    <div class="invalid-feedback" data-error-for="ktp_photo"></div>
+                                </div>
+
+                                <div class="col-md-12">
                                     <label class="form-label">Address</label>
                                     <textarea class="form-control" name="address" rows="2" placeholder="Alamat lengkap"></textarea>
                                     <div class="invalid-feedback" data-error-for="address"></div>
