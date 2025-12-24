@@ -27,6 +27,21 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
+
+                <li class="sidebar-title">SPT Management</li>
+                <li class="sidebar-item {{ activeState('admin.spt.index') }}">
+                    <a href="{{ route('admin.spt.index') }}" class="sidebar-link">
+                        <i class="bi bi-box-arrow-in-up"></i>
+                        <span>SPT Baru</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ activeState('admin.spt.history') }}">
+                    <a href="{{ route('admin.spt.history') }}" class="sidebar-link">
+                        <i class="bi bi-clock-history"></i>
+                        <span>History SPT</span>
+                    </a>
+                </li>
+
                 <li class="sidebar-title">Master Data</li>
                 <li class="sidebar-item {{ activeState('admin.driver.index') }}">
                     <a href="{{ route('admin.driver.index') }}" class="sidebar-link">

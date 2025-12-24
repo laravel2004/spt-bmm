@@ -122,6 +122,13 @@ Route::prefix('/')->group(function () {
                 Route::delete('/delete/{id}', [\App\Http\Controllers\Admin\UserManagement\UserManagementController::class, 'destroy'])->name('admin.user-management.delete');
             });
         });
+
+        Route::prefix('/spt')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\SPT\SPTController::class, 'index'])->name('admin.spt.index');
+            Route::get('/history', [\App\Http\Controllers\Admin\SPT\SPTController::class, 'history'])->name('admin.spt.history');
+            Route::get('/show/{id}', [\App\Http\Controllers\Admin\SPT\SPTController::class, 'show'])->name('admin.spt.show');
+            Route::post('/transit/{id}', [\App\Http\Controllers\Admin\SPT\SPTController::class, 'transit'])->name('admin.spt.transit');
+        });
     });
 
     Route::middleware(['auth', 'role:DRIVER'])->group(function () {
