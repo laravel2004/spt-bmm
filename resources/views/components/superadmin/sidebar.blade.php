@@ -42,6 +42,20 @@
                     </a>
                 </li>
 
+                <li class="sidebar-title">SJ Management</li>
+                <li class="sidebar-item {{ activeState('superadmin.sj.index') }}">
+                    <a href="{{ route('superadmin.sj.index') }}" class="sidebar-link">
+                        <i class="bi bi-box-arrow-in-up"></i>
+                        <span>SJ Baru</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ activeState('superadmin.sj.history') }}">
+                    <a href="{{ route('superadmin.sj.history') }}" class="sidebar-link">
+                        <i class="bi bi-clock-history"></i>
+                        <span>History SJ</span>
+                    </a>
+                </li>
+
                 <li class="sidebar-title">Master Data</li>
                 <li class="sidebar-item {{ activeState('superadmin.mapping-transportir.index') }}">
                     <a href="{{ route('superadmin.mapping-transportir.index') }}" class="sidebar-link">

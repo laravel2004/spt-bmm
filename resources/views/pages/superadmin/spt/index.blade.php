@@ -106,13 +106,12 @@
 
                                     <td>
                                         @if((bool) $spt->status)
-                                            <span class="badge bg-light-success text-success">Open</span>
-                                        @else
                                             <span class="badge bg-light-danger text-danger">Close</span>
+                                        @else
+                                            <span class="badge bg-light-success text-success">Open</span>
                                         @endif
                                     </td>
 
-                                    {{-- Status Delivery: pakai field take_assignment_date / take_assignment_by dari migration --}}
                                     <td>
                                         @if($spt->take_assignment_date)
                                             <span class="badge bg-light-info text-info">Assigned</span>
@@ -140,6 +139,7 @@
                                             </button>
 
                                             <ul class="dropdown-menu dropdown-menu-end">
+                                                {{-- Show --}}
                                                 @if(\Illuminate\Support\Facades\Route::has('superadmin.spt.show'))
                                                     <li>
                                                         <a class="dropdown-item" href="{{ route('superadmin.spt.show', $spt->id) }}">
@@ -148,27 +148,17 @@
                                                     </li>
                                                 @endif
 
-                                                @if(\Illuminate\Support\Facades\Route::has('superadmin.spt.edit'))
-                                                    <li>
-                                                        <a class="dropdown-item" href="{{ route('superadmin.spt.edit', $spt->id) }}">
-                                                            <i class="bi bi-pencil-square me-2"></i> Edit
-                                                        </a>
-                                                    </li>
-                                                @endif
-
-                                                @if(\Illuminate\Support\Facades\Route::has('superadmin.spt.delete'))
-                                                    <li><hr class="dropdown-divider"></li>
-                                                    <li>
-                                                        <button
-                                                            type="button"
-                                                            class="dropdown-item text-danger btn-delete-spt"
-                                                            data-url="{{ route('superadmin.spt.delete', $spt->id) }}"
-                                                            data-name="{{ $spt->spt_no ?? $spt->sppb_no ?? 'this SPT' }}"
-                                                        >
-                                                            <i class="bi bi-trash me-2"></i> Delete
-                                                        </button>
-                                                    </li>
-                                                @endif
+                                                {{-- Transit (POST /transit/{id}) --}}
+                                                <li>
+                                                    <button
+                                                        type="button"
+                                                        class="dropdown-item text-warning btn-transit-spt"
+                                                        data-url="{{ route('superadmin.spt.transit', $spt->id) }}"
+                                                        data-name="{{ $spt->spt_no ?? $spt->sppb_no ?? 'this SPT' }}"
+                                                    >
+                                                        <i class="bi bi-arrow-left-right me-2"></i> Transit
+                                                    </button>
+                                                </li>
                                             </ul>
                                         </div>
                                     </td>
@@ -200,35 +190,34 @@
             const indexUrl = @json(url()->current());
             const csrf = $('meta[name="csrf-token"]').attr('content') || $('input[name="_token"]').val();
 
-            $(document).on('click', '.btn-delete-spt', function () {
+            $(document).on('click', '.btn-transit-spt', function () {
                 const url  = $(this).data('url');
                 const name = $(this).data('name') || 'this SPT';
 
                 Swal.fire({
-                    title: 'Delete SPT?',
-                    html: `Are you sure you want to delete <b>${name}</b>?<br><small class="text-muted">This action cannot be undone.</small>`,
-                    icon: 'warning',
+                    title: 'Set Transit?',
+                    html: `Are you sure you want to set <b>${name}</b> as <b>Transit</b>?`,
+                    icon: 'question',
                     showCancelButton: true,
-                    confirmButtonText: 'Yes, delete',
-                    cancelButtonText: 'Cancel',
-                    confirmButtonColor: '#d33'
+                    confirmButtonText: 'Yes, transit',
+                    cancelButtonText: 'Cancel'
                 }).then((result) => {
                     if (!result.isConfirmed) return;
 
                     $.ajax({
                         url: url,
                         method: 'POST',
-                        data: { _token: csrf, _method: 'DELETE' },
+                        data: { _token: csrf },
                         success: function (res) {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Deleted',
-                                text: res?.message || 'SPT deleted successfully',
+                                title: 'Success',
+                                text: res?.message || 'Transit updated successfully',
                                 confirmButtonText: 'OK'
                             }).then(() => window.location.href = indexUrl);
                         },
                         error: function (xhr) {
-                            const msg = xhr.responseJSON?.message || 'Failed to delete SPT';
+                            const msg = xhr.responseJSON?.message || 'Failed to update transit';
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',

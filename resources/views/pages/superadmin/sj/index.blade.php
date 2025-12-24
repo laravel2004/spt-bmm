@@ -1,7 +1,7 @@
 @extends('layouts.master-super')
 
-@section('title', 'SPT Management')
-@section('subtitle', 'SPT Management')
+@section('title', 'SJ Management')
+@section('subtitle', 'SJ Management')
 
 @section('content')
     <section class="section">
@@ -10,9 +10,9 @@
                 <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
 
                     <div>
-                        <h4 class="mb-0">SPT Management</h4>
+                        <h4 class="mb-0">SJ Management</h4>
                         <p class="text-muted mb-0">
-                            Total: <span class="fw-bold">{{ $spts->total() }}</span> SPT found.
+                            Total: <span class="fw-bold">{{ $sjs->total() }}</span> SJ found.
                         </p>
                     </div>
 
@@ -27,7 +27,7 @@
                                     type="text"
                                     class="form-control"
                                     name="search"
-                                    placeholder="Search spt_no / sppb_no / cust_code..."
+                                    placeholder="Search sj_no / spt_no / cust_code / item_code..."
                                     value="{{ request('search') }}"
                                     autocomplete="off"
                                 />
@@ -59,10 +59,10 @@
             </div>
 
             <div class="card-body">
-                @if($spts->count() === 0)
+                @if($sjs->count() === 0)
                     <div class="alert alert-light-primary mb-0">
                         <i class="bi bi-info-circle me-1"></i>
-                        No SPT found.
+                        No SJ found.
                     </div>
                 @else
                     <div class="table-responsive">
@@ -70,65 +70,73 @@
                             <thead>
                             <tr>
                                 <th style="width: 70px;">No</th>
-                                <th>No. SPPB</th>
-                                <th>No. SPT</th>
+                                <th>SJ No</th>
+                                <th>SJ Date</th>
+                                <th>SPT No</th>
+                                <th>Customer</th>
+                                <th>Transportir</th>
                                 <th>Driver</th>
-                                <th>No. Telp</th>
-                                <th>Date SPT</th>
-                                <th>Date Expired</th>
-                                <th>Status</th>
-                                <th>Status Delivery</th>
+                                <th>Vehicle</th>
+                                <th>Qty</th>
                                 <th>Transit</th>
+                                <th>Status</th>
                                 <th class="text-end" style="width: 120px;">Action</th>
                             </tr>
                             </thead>
 
                             <tbody>
-                            @foreach($spts as $i => $spt)
+                            @foreach($sjs as $i => $sj)
                                 <tr>
-                                    <td class="text-muted">{{ $spts->firstItem() + $i }}</td>
+                                    <td class="text-muted">{{ $sjs->firstItem() + $i }}</td>
 
-                                    <td>{{ $spt->sppb_no ?? '-' }}</td>
-
-                                    <td>{{ $spt->spt_no ?? '-' }}</td>
-
-                                    <td>{{ $spt->driver->fullname ?? '-' }}</td>
-
-                                    <td>{{ $spt->phone ?? '-' }}</td>
-
-                                    <td class="text-muted small">
-                                        {{ $spt->spt_date ? \Illuminate\Support\Carbon::parse($spt->spt_date)->format('Y-m-d H:i') : '-' }}
+                                    <td>
+                                        <div class="fw-semibold">{{ $sj->sj_no ?? '-' }}</div>
+                                        <div class="text-muted small text-truncate" style="max-width: 220px;">
+                                            {{ $sj->item_code ?? '-' }} — {{ $sj->item_name ?? '-' }}
+                                        </div>
                                     </td>
 
                                     <td class="text-muted small">
-                                        {{ $spt->spt_expired_date ? \Illuminate\Support\Carbon::parse($spt->spt_expired_date)->format('Y-m-d H:i') : '-' }}
+                                        {{ $sj->sj_date ? \Illuminate\Support\Carbon::parse($sj->sj_date)->format('Y-m-d H:i') : '-' }}
+                                    </td>
+
+                                    <td>{{ $sj->spt_no ?? '-' }}</td>
+
+                                    <td>
+                                        <div class="fw-semibold">{{ $sj->cust_name ?? '-' }}</div>
+                                        <div class="text-muted small">{{ $sj->cust_code ?? '-' }}</div>
                                     </td>
 
                                     <td>
-                                        @if((bool) $spt->status)
-                                            <span class="badge bg-light-danger text-danger">Close</span>
-                                        @else
-                                            <span class="badge bg-light-success text-success">Open</span>
-                                        @endif
-                                    </td>
-
-                                    {{-- Status Delivery: pakai field take_assignment_date / take_assignment_by dari migration --}}
-                                    <td>
-                                        @if($spt->take_assignment_date)
-                                            <span class="badge bg-light-info text-info">Assigned</span>
-                                            <div class="text-muted small text-truncate" style="max-width: 180px;">
-                                                {{ $spt->take_assignment_by ?? '-' }}
-                                            </div>
-                                        @else
-                                            <span class="badge bg-light-secondary text-secondary">Not Assigned</span>
-                                        @endif
+                                        <div class="fw-semibold">{{ $sj->transportir_name ?? '-' }}</div>
+                                        <div class="text-muted small">{{ $sj->transportir_code ?? '-' }}</div>
                                     </td>
 
                                     <td>
-                                        @if((bool) $spt->is_transit)
+                                        <div class="fw-semibold">{{ $sj->driver->fullname ?? '-' }}</div>
+                                        <div class="text-muted small">{{ $sj->phone ?? '-' }}</div>
+                                    </td>
+
+                                    <td>{{ $sj->vehicle_type ?? '-' }}</td>
+
+                                    <td>
+                                        <div class="fw-semibold">{{ $sj->qty ?? '-' }}</div>
+                                        <div class="text-muted small">SPPB: {{ $sj->qty_sppb ?? '-' }}</div>
+                                    </td>
+
+                                    <td>
+                                        @if((bool) $sj->is_transit)
                                             <span class="badge bg-light-warning text-warning">Yes</span>
                                         @else
                                             <span class="badge bg-light-secondary text-secondary">No</span>
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        @if((bool) $sj->status)
+                                            <span class="badge bg-light-success text-success">Active</span>
+                                        @else
+                                            <span class="badge bg-light-danger text-danger">Inactive</span>
                                         @endif
                                     </td>
 
@@ -140,30 +148,30 @@
                                             </button>
 
                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                @if(\Illuminate\Support\Facades\Route::has('superadmin.spt.show'))
+                                                @if(\Illuminate\Support\Facades\Route::has('superadmin.mob-sj.show'))
                                                     <li>
-                                                        <a class="dropdown-item" href="{{ route('superadmin.spt.show', $spt->id) }}">
+                                                        <a class="dropdown-item" href="{{ route('superadmin.mob-sj.show', $sj->id) }}">
                                                             <i class="bi bi-eye me-2"></i> Detail
                                                         </a>
                                                     </li>
                                                 @endif
 
-                                                @if(\Illuminate\Support\Facades\Route::has('superadmin.spt.edit'))
+                                                @if(\Illuminate\Support\Facades\Route::has('superadmin.mob-sj.edit'))
                                                     <li>
-                                                        <a class="dropdown-item" href="{{ route('superadmin.spt.edit', $spt->id) }}">
+                                                        <a class="dropdown-item" href="{{ route('superadmin.mob-sj.edit', $sj->id) }}">
                                                             <i class="bi bi-pencil-square me-2"></i> Edit
                                                         </a>
                                                     </li>
                                                 @endif
 
-                                                @if(\Illuminate\Support\Facades\Route::has('superadmin.spt.delete'))
+                                                @if(\Illuminate\Support\Facades\Route::has('superadmin.mob-sj.delete'))
                                                     <li><hr class="dropdown-divider"></li>
                                                     <li>
                                                         <button
                                                             type="button"
-                                                            class="dropdown-item text-danger btn-delete-spt"
-                                                            data-url="{{ route('superadmin.spt.delete', $spt->id) }}"
-                                                            data-name="{{ $spt->spt_no ?? $spt->sppb_no ?? 'this SPT' }}"
+                                                            class="dropdown-item text-danger btn-delete-sj"
+                                                            data-url="{{ route('superadmin.mob-sj.delete', $sj->id) }}"
+                                                            data-name="{{ $sj->sj_no ?? $sj->spt_no ?? 'this SJ' }}"
                                                         >
                                                             <i class="bi bi-trash me-2"></i> Delete
                                                         </button>
@@ -180,12 +188,12 @@
 
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mt-3">
                         <div class="text-muted small">
-                            Showing <b>{{ $spts->firstItem() }}</b> to <b>{{ $spts->lastItem() }}</b>
-                            of <b>{{ $spts->total() }}</b> results
+                            Showing <b>{{ $sjs->firstItem() }}</b> to <b>{{ $sjs->lastItem() }}</b>
+                            of <b>{{ $sjs->total() }}</b> results
                         </div>
 
                         <div>
-                            {{ $spts->links() }}
+                            {{ $sjs->links() }}
                         </div>
                     </div>
                 @endif
@@ -200,12 +208,12 @@
             const indexUrl = @json(url()->current());
             const csrf = $('meta[name="csrf-token"]').attr('content') || $('input[name="_token"]').val();
 
-            $(document).on('click', '.btn-delete-spt', function () {
+            $(document).on('click', '.btn-delete-sj', function () {
                 const url  = $(this).data('url');
-                const name = $(this).data('name') || 'this SPT';
+                const name = $(this).data('name') || 'this SJ';
 
                 Swal.fire({
-                    title: 'Delete SPT?',
+                    title: 'Delete SJ?',
                     html: `Are you sure you want to delete <b>${name}</b>?<br><small class="text-muted">This action cannot be undone.</small>`,
                     icon: 'warning',
                     showCancelButton: true,
@@ -223,12 +231,12 @@
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Deleted',
-                                text: res?.message || 'SPT deleted successfully',
+                                text: res?.message || 'SJ deleted successfully',
                                 confirmButtonText: 'OK'
                             }).then(() => window.location.href = indexUrl);
                         },
                         error: function (xhr) {
-                            const msg = xhr.responseJSON?.message || 'Failed to delete SPT';
+                            const msg = xhr.responseJSON?.message || 'Failed to delete SJ';
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',

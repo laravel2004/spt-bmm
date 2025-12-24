@@ -23,7 +23,7 @@ class SPTController extends Controller
             $perPage = (int) $request->query('perPage', 10);
             $perPage = max(1, min($perPage, 100));
 
-            $query = $this->spt->newQuery()->where('status', true);
+            $query = $this->spt->newQuery()->where('status', false);
 
             if ($search !== '') {
                 $query->where(function ($q) use ($search) {
@@ -55,7 +55,7 @@ class SPTController extends Controller
             $perPage = (int) $request->query('perPage', 10);
             $perPage = max(1, min($perPage, 100));
 
-            $query = $this->spt->newQuery()->where('status', false);
+            $query = $this->spt->newQuery()->where('status', true);
 
             if ($search !== '') {
                 $query->where(function ($q) use ($search) {
@@ -77,6 +77,47 @@ class SPTController extends Controller
             ]);
 
             abort(500, 'Failed to load SPTs');
+        }
+    }
+
+    public function show($id)
+    {
+        try {
+            $spt = $this->spt->with('driver')->findOrFail($id);
+
+            return view('pages.superadmin.spt.show', compact('spt'));
+
+        } catch (\Throwable $e) {
+            Log::error('[SPTController@show] ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            abort(500, 'Failed to load SPT details');
+        }
+    }
+
+    public function transit($id)
+    {
+        try {
+
+            $spt = $this->spt->findOrFail($id);
+
+            if ($spt->is_transit) {
+                $spt->is_transit = false;
+            } else {
+                $spt->is_transit = true;
+            }
+
+            $spt->save();
+
+            return $this->successResponse($spt, 'SPT transit updated successfully', 200);
+
+        } catch (\Throwable $e) {
+            Log::error('[SPTController@transit] ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return $this->errorResponse('Failed to update SPT transit status', 500);
         }
     }
 }

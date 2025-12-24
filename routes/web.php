@@ -76,11 +76,24 @@ Route::prefix('/')->group(function () {
             Route::prefix('/spt')->group(function () {
                 Route::get('/', [\App\Http\Controllers\SuperAdmin\SPT\SPTController::class, 'index'])->name('superadmin.spt.index');
                 Route::get('/history', [\App\Http\Controllers\SuperAdmin\SPT\SPTController::class, 'history'])->name('superadmin.spt.history');
+                Route::post('/transit/{id}', [\App\Http\Controllers\SuperAdmin\SPT\SPTController::class, 'transit'])->name('superadmin.spt.transit');
+                Route::get('/show/{id}', [\App\Http\Controllers\SuperAdmin\SPT\SPTController::class, 'show'])->name('superadmin.spt.show');
                 Route::get('/create', [\App\Http\Controllers\SuperAdmin\SPT\SPTController::class, 'create'])->name('superadmin.spt.create');
                 Route::post('/store', [\App\Http\Controllers\SuperAdmin\SPT\SPTController::class, 'store'])->name('superadmin.spt.store');
                 Route::get('/edit/{id}', [\App\Http\Controllers\SuperAdmin\SPT\SPTController::class, 'edit'])->name('superadmin.spt.edit');
                 Route::put('/update/{id}', [\App\Http\Controllers\SuperAdmin\SPT\SPTController::class, 'update'])->name('superadmin.spt.update');
                 Route::delete('/delete/{id}', [\App\Http\Controllers\SuperAdmin\SPT\SPTController::class, 'destroy'])->name('superadmin.spt.delete');
+            });
+
+            Route::prefix('/sj')->group(function () {
+                Route::get('/', [\App\Http\Controllers\SuperAdmin\SJ\SJController::class, 'index'])->name('superadmin.sj.index');
+                Route::get('/history', [\App\Http\Controllers\SuperAdmin\SJ\SJController::class, 'history'])->name('superadmin.sj.history');
+                Route::get('/show/{id}', [\App\Http\Controllers\SuperAdmin\SJ\SJController::class, 'show'])->name('superadmin.sj.show');
+                Route::get('/create', [\App\Http\Controllers\SuperAdmin\SJ\SJController::class, 'create'])->name('superadmin.sj.create');
+                Route::post('/store', [\App\Http\Controllers\SuperAdmin\SJ\SJController::class, 'store'])->name('superadmin.sj.store');
+                Route::get('/edit/{id}', [\App\Http\Controllers\SuperAdmin\SJ\SJController::class, 'edit'])->name('superadmin.sj.edit');
+                Route::put('/update/{id}', [\App\Http\Controllers\SuperAdmin\SJ\SJController::class, 'update'])->name('superadmin.sj.update');
+                Route::delete('/delete/{id}', [\App\Http\Controllers\SuperAdmin\SJ\SJController::class, 'destroy'])->name('superadmin.sj.delete');
             });
 
         });
